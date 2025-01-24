@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Conferma prenotazione</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <header>
+        <h1>Prenotazione effettuata con successo</h1>
+    </header>
+    <main>
+        <div class="confirmation-container">
+            <h2>La tua prenotazione è stata confermata!</h2>
+            <p>Il tuo numero di prenotazione è: <strong id="booking-id">...</strong></p>
+            <button id="modify-booking">Modifica prenotazione</button>
+            <button id="delete-booking">Elimina prenotazione</button>
+        </div>
+    </main>
+    <footer>
+        <p>&copy; Pizzeria da Pegaso</p>
+    </footer>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const bookingId = urlParams.get('bookingId');
+
+        if (bookingId) {
+            document.getElementById('booking-id').textContent = bookingId;
+        }
+
+        // Reindirizza a booking.html con l'ID della prenotazione
+        document.getElementById('modify-booking').addEventListener('click', () => {
+            window.location.href = `booking.html?bookingId=${bookingId}`;
+        });
+
+        // Funzione per eliminare la prenotazione con conferma
+        document.getElementById('delete-booking').addEventListener('click', async () => {
+            const confirmation = confirm("Sei sicuro di voler cancellare questa prenotazione?");
+            if (!confirmation) return; // Interrompe il flusso se l'utente annulla
+
+            try {
+                const response = await fetch(`http://127.0.0.1:8000/api/bookings/${bookingId}`, { method: 'DELETE' });
+                if (!response.ok) throw new Error("Errore durante l'eliminazione.");
+
+                alert('Prenotazione eliminata con successo!');
+                window.location.href = 'booking.html';
+            } catch (error) {
+                alert(error.message);
+            }
+        });
+    </script>
+</body>
+</html>
