@@ -1,11 +1,12 @@
 document.addEventListener('DOMContentLoaded', () => {
+    
     const dateInput = document.getElementById('date');
     const today = new Date().toISOString().split('T')[0];
 
     dateInput.setAttribute('min', today);
 
     const urlParams = new URLSearchParams(window.location.search);
-    const bookingId = urlParams.get('bookingId'); // Ottieni il bookingId dall'URL
+    const bookingId = urlParams.get('bookingId'); 
 
     if (bookingId) {
         fetch(`http://127.0.0.1:8000/api/bookings/${bookingId}`)

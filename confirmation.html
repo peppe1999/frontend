@@ -29,15 +29,14 @@
             document.getElementById('booking-id').textContent = bookingId;
         }
 
-        // Reindirizza a booking.html con l'ID della prenotazione
         document.getElementById('modify-booking').addEventListener('click', () => {
             window.location.href = `booking.html?bookingId=${bookingId}`;
         });
 
-        // Funzione per eliminare la prenotazione con conferma
+    
         document.getElementById('delete-booking').addEventListener('click', async () => {
             const confirmation = confirm("Sei sicuro di voler cancellare questa prenotazione?");
-            if (!confirmation) return; // Interrompe il flusso se l'utente annulla
+            if (!confirmation) return;
 
             try {
                 const response = await fetch(`http://127.0.0.1:8000/api/bookings/${bookingId}`, { method: 'DELETE' });
